@@ -22,7 +22,7 @@ const RolesPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header Section */}
+      {}
       <div className="bg-white border-b border-gray-200">
         <div className="h-16 container mx-auto px-6 flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-gray-900">Roles Dashboard</h1>
@@ -63,7 +63,7 @@ const RolesPage = () => {
           />
         </div>
 
-        {/* Search and Filter Section */}
+        {}
         <div className="mb-8">
           <div className="relative max-w-md">
             <div className="relative">
@@ -79,7 +79,7 @@ const RolesPage = () => {
           </div>
         </div>
 
-        {/* Roles List Section */}
+        {}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-lg font-medium text-gray-900">Your Roles</h2>
@@ -105,9 +105,7 @@ const RolesPage = () => {
                         {totalCandidates} candidates
                       </span>
                     </div>
-                    <div className="mt-2">
-                      <RatingComponent rating={4} details={[]} />
-                    </div>
+                
                   </div>
                 </div>
                 <Button

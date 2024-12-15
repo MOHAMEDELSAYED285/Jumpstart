@@ -44,7 +44,7 @@ We hope this email finds you well. We wanted to provide you with an update on yo
 
 We're pleased to inform you that your application has progressed to the ${stage.title} stage of our hiring process. This is an important step, and we're excited about the possibility of you joining our team.
 
-[Stage-specific content will be generated here]
+
 
 If you have any questions or need any additional information, please don't hesitate to reach out to us at recruiting@jumpstart.com.
 

@@ -7,6 +7,7 @@ import CandidateDetail from './CandidateDetail';
 import RoleHeader from './RoleHeader';
 import Notification from './Notification';
 import RejectionEmailModal from './RejectionEmailModal';
+import StageChangeDialog from './StageChangeDialog';
 import { candidateData } from '../data';
 
 const KanbanBoard = () => {
@@ -19,6 +20,7 @@ const KanbanBoard = () => {
   const [notification, setNotification] = useState(null);
   const [rejectionModalOpen, setRejectionModalOpen] = useState(false);
   const [candidateToReject, setCandidateToReject] = useState(null);
+  const [stageChangeConfirmation, setStageChangeConfirmation] = useState(null);
 
   useEffect(() => {
     const savedStages = JSON.parse(localStorage.getItem('kanbanStages') || '[]');
@@ -51,32 +53,43 @@ const KanbanBoard = () => {
 
     const activeCandidate = candidates.find(c => c.id === active.id);
     const overStage = over.id;
+    const newStage = stages.find(s => s.id === overStage);
 
     if (activeCandidate && activeCandidate.stage !== overStage) {
-      setCandidates(prevCandidates => {
-        const updatedCandidates = prevCandidates.map(candidate =>
-          candidate.id === activeCandidate.id
-            ? { ...candidate, stage: overStage }
-            : candidate
-        );
-        
-        const template = emailTemplates[overStage];
-        if (template) {
-          setNotification(`Email sent to ${activeCandidate.email}`);
-        }
-
-        return updatedCandidates;
+      setStageChangeConfirmation({
+        candidateId: activeCandidate.id,
+        candidateName: activeCandidate.name,
+        newStageId: overStage,
+        newStageName: newStage.title,
+        candidateEmail: activeCandidate.email
       });
     }
 
     setActiveId(null);
-  }, [candidates, emailTemplates]);
+  }, [candidates, stages]);
 
   const handleDragCancel = useCallback(() => {
     setActiveId(null);
   }, []);
 
   const handleMoveToStage = useCallback((candidateId, newStageId) => {
+    const candidate = candidates.find(c => c.id === candidateId);
+    const newStage = stages.find(s => s.id === newStageId);
+    
+    if (candidate && newStage) {
+      setStageChangeConfirmation({
+        candidateId,
+        candidateName: candidate.name,
+        newStageId,
+        newStageName: newStage.title,
+        candidateEmail: candidate.email
+      });
+    }
+  }, [candidates, stages]);
+
+  const confirmStageChange = useCallback(() => {
+    const { candidateId, newStageId, candidateEmail } = stageChangeConfirmation;
+    
     setCandidates(prevCandidates => {
       const updatedCandidates = prevCandidates.map(candidate =>
         candidate.id === candidateId
@@ -84,17 +97,16 @@ const KanbanBoard = () => {
           : candidate
       );
       
-      const movedCandidate = updatedCandidates.find(c => c.id === candidateId);
-      if (movedCandidate) {
-        const template = emailTemplates[newStageId];
-        if (template) {
-          setNotification(`Email sent to ${movedCandidate.email}`);
-        }
+      const template = emailTemplates[newStageId];
+      if (template) {
+        setNotification(`Email sent to ${candidateEmail}`);
       }
 
       return updatedCandidates;
     });
-  }, [emailTemplates]);
+
+    setStageChangeConfirmation(null);
+  }, [stageChangeConfirmation, emailTemplates]);
 
   const handleAddNote = useCallback((candidateId, newNote) => {
     setCandidates(prevCandidates =>
@@ -122,7 +134,6 @@ const KanbanBoard = () => {
   };
 
   const handleSendRejectionEmail = (emailContent) => {
-    // Here you would typically send the email using your backend API
     console.log(`Sending rejection email to ${candidateToReject.email}:`, emailContent);
     removeCandidateFromBoard(candidateToReject.id);
     setRejectionModalOpen(false);
@@ -131,6 +142,10 @@ const KanbanBoard = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
+      <div className="px-8 py-6 border-b border-gray-200 bg-white">
+        <h1 className="text-xl font-semibold text-gray-900">In process</h1>
+      </div>
+
       <RoleHeader 
         role={{
           title: "Software Engineer (front-end focused)",
@@ -185,13 +200,7 @@ const KanbanBoard = () => {
           onClose={() => setSelectedCandidate(null)}
           stages={stages}
           onStageChange={(candidateId, newStage) => {
-            setCandidates(prevCandidates =>
-              prevCandidates.map(candidate =>
-                candidate.id === candidateId
-                  ? { ...candidate, stage: newStage }
-                  : candidate
-              )
-            );
+            handleMoveToStage(candidateId, newStage);
           }}
           onAddNote={handleAddNote}
           onRejectCandidate={handleRejectCandidate}
@@ -214,9 +223,19 @@ const KanbanBoard = () => {
         onSend={handleSendRejectionEmail}
         candidateName={candidateToReject?.name}
       />
+
+      {stageChangeConfirmation && (
+        <StageChangeDialog
+          isOpen={!!stageChangeConfirmation}
+          onClose={() => setStageChangeConfirmation(null)}
+          onConfirm={confirmStageChange}
+          candidateName={stageChangeConfirmation.candidateName}
+          newStage={stageChangeConfirmation.newStageName}
+          emailTemplate={emailTemplates[stageChangeConfirmation.newStageId]}
+        />
+      )}
     </div>
   );
 };
 
 export default KanbanBoard;
-
