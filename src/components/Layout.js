@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
 
   const sidebarItems = [
     { icon: Home, label: 'Home', path: '/' },
-    { icon: Users, label: 'Kanban ATS', path: '/kanban' },
+    { icon: Users, label: 'In process', path: '/kanban' },
   ];
 
   return (
