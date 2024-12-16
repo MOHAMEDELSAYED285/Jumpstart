@@ -117,20 +117,20 @@ The Jumpstart Recruiting Team`
               ))}
             </div>
 
-            <div className="flex justify-between mt-6">
-              <Button
-                onClick={() => setStep(0)}
-                variant="outline"
-                className="bg-white text-black border-[#6FEEC5] hover:bg-[#6FEEC5] hover:text-white"
-              >
-                Back to Stages
-              </Button>
-              <Button
-                onClick={handleComplete}
-                className="bg-[#6FEEC5] text-black hover:bg-[#5FD4B0]"
-              >
-                Complete Setup
-              </Button>
+            <div className="flex justify-between mt-6 space-x-4">
+            <Button
+          onClick={() => setStep(0)}
+          variant="outline"
+          className="flex-1 border-2 border-[#6FEEC5] text-[#6FEEC5] hover:bg-[#6FEEC5] hover:text-white transition-colors duration-200"
+        >
+          Back to Stages
+        </Button>
+        <Button
+          onClick={handleComplete}
+          className="flex-1 bg-[#6FEEC5] text-black hover:bg-[#5FD4B0] transition-colors duration-200"
+        >
+          Complete Setup
+        </Button>
             </div>
           </div>
         )}

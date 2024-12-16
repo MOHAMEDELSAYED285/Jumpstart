@@ -148,8 +148,18 @@ const CandidateDetail = ({ candidate, onClose, stages, onStageChange, onAddNote,
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex justify-end">
-      <div className="w-full max-w-3xl bg-white h-full flex flex-col overflow-y-auto">
+    <div 
+    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex justify-end"
+    onClick={(e) => {
+      if (e.target === e.currentTarget) {
+        onClose();
+      }
+    }}
+  >
+    <div 
+      className="w-full max-w-3xl bg-white h-full flex flex-col overflow-y-auto"
+      onClick={(e) => e.stopPropagation()}
+    >
         {}
         <div className="flex justify-between items-center px-6 py-4 bg-white border-b border-gray-200">
           <div className="flex items-center gap-4">
