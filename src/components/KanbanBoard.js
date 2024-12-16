@@ -209,18 +209,17 @@ const KanbanBoard = () => {
       </div>
 
       {selectedCandidate && (
-        <CandidateDetail
-          candidate={selectedCandidate}
-          onAddNote={handleAddNote}
-          onClose={() => setSelectedCandidate(null)}
-          stages={stages}
-          onStageChange={(candidateId, newStage) => {
-            handleMoveToStage(candidateId, newStage);
-          }}
-          onAddNote={handleAddNote}
-          onRejectCandidate={handleRejectCandidate}
-        />
-      )}
+  <CandidateDetail
+    candidate={selectedCandidate}
+    onAddNote={handleAddNote}
+    onClose={() => setSelectedCandidate(null)}
+    stages={stages}
+    onStageChange={(candidateId, newStage) => {
+      handleMoveToStage(candidateId, newStage);
+    }}
+    onRejectCandidate={handleRejectCandidate}
+  />
+)}
 
       {notification && (
         <Notification

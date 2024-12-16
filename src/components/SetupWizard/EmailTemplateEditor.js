@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { Input } from '../../ui/input';
 import { Textarea } from '../../ui/textarea';
-import { Button } from '../../ui/button';
-import { Wand2, Loader2 } from 'lucide-react';
+
 
 const EmailTemplateEditor = ({ stage, template, onUpdate }) => {
   const [subject, setSubject] = useState(template.subject);
   const [body, setBody] = useState(template.body);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
 
   const handleSubjectChange = (e) => {
     setSubject(e.target.value);
@@ -20,51 +18,6 @@ const EmailTemplateEditor = ({ stage, template, onUpdate }) => {
     onUpdate({ ...template, body: e.target.value });
   };
 
-  const handleGenerateEmail = async () => {
-    setIsGenerating(true);
-    setError(null);
-
-    try {
-      
-      const healthCheck = await fetch('/api/health').catch(() => ({ ok: false }));
-      
-      if (!healthCheck.ok) {
-        throw new Error('Server is not running. Please start the server with "npm run server"');
-      }
-
-      const response = await fetch('/api/generate-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          stageName: stage.title,
-          stageDescription: stage.description || '',
-        }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || 'Failed to generate email');
-      }
-
-      const data = await response.json();
-
-      if (data.generatedEmail) {
-        setBody(data.generatedEmail);
-        onUpdate({ ...template, body: data.generatedEmail });
-        alert('Email template generated successfully');
-      } else {
-        throw new Error('No email content received');
-      }
-    } catch (error) {
-      console.error('Error generating email:', error);
-      setError(error.message);
-      alert(error.message || 'Failed to generate email template. Please try again.');
-    } finally {
-      setIsGenerating(false);
-    }
-  };
 
   return (
     <div className="mb-6 p-4 border border-[#6FEEC5] rounded-lg">

@@ -6,7 +6,7 @@ export default function RoleCard({ role }) {
   return (
     <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
       <div className="space-y-4">
-        {/* Header */}
+        {}
         <div className="flex justify-between items-start">
           <div>
             <h3 className="font-medium text-gray-900">{role.title}</h3>
@@ -28,7 +28,7 @@ export default function RoleCard({ role }) {
           </div>
         </div>
 
-        {/* Progress */}
+        {}
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-gray-500">Completion</span>
@@ -42,7 +42,7 @@ export default function RoleCard({ role }) {
           </div>
         </div>
 
-        {/* Stats */}
+        {}
         <div className="grid grid-cols-3 gap-4 pt-2">
           <div>
             <p className="text-sm font-medium">{role.candidates}</p>
@@ -58,7 +58,7 @@ export default function RoleCard({ role }) {
           </div>
         </div>
 
-        {/* Stage Distribution */}
+        {}
         <div className="flex gap-1 h-1">
           <div 
             className="bg-blue-400" 

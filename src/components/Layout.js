@@ -13,14 +13,14 @@ const Layout = ({ children }) => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
-      {/* Sidebar */}
+      {}
       <div 
         className={`
           flex flex-col bg-white shadow-lg transition-all duration-300 ease-in-out
           ${isSidebarCollapsed ? 'w-20' : 'w-56'}
         `}
       >
-        {/* Logo and toggle section */}
+        {}
         <div className="flex items-center justify-between h-16 px-2 border-b border-gray-200">
           <div className="flex items-center justify-center">
             <div className={`
@@ -55,7 +55,7 @@ const Layout = ({ children }) => {
           </button>
         </div>
           
-        {/* Navigation */}
+        {}
         <nav className="flex-1 pt-6">
           {sidebarItems.map((item) => (
             <NavItem
@@ -70,7 +70,7 @@ const Layout = ({ children }) => {
         </nav>
       </div>
 
-      {/* Main Content */}
+      {}
       <div className="flex-1 overflow-hidden bg-white shadow-lg">
         {children}
       </div>
