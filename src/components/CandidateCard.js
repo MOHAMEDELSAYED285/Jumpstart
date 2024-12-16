@@ -29,7 +29,6 @@ const CandidateCard = ({ candidate, onClick, isDragging, stages, onMoveToStage, 
   ];
 
   const handleCardClick = (e) => {
-    // Only trigger onClick if the click is not on the dropdown or its children
     if (!e.target.closest('.dropdown-menu')) {
       onClick?.(candidate);
     }

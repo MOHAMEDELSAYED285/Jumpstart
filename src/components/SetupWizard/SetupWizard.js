@@ -31,7 +31,7 @@ const SetupWizard = () => {
 
   const handleStagesUpdate = (updatedStages) => {
     setStages(updatedStages);
-    // Initialize email templates for each stage while preserving rejection template
+
     const templates = {
       rejection: REJECTION_TEMPLATE
     };
@@ -43,8 +43,6 @@ const SetupWizard = () => {
 We hope this email finds you well. We wanted to provide you with an update on your application for the [Position] role at Jumpstart.
 
 We're pleased to inform you that your application has progressed to the ${stage.title} stage of our hiring process. This is an important step, and we're excited about the possibility of you joining our team.
-
-
 
 If you have any questions or need any additional information, please don't hesitate to reach out to us at recruiting@jumpstart.com.
 

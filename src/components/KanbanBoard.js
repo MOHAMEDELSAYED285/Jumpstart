@@ -10,8 +10,11 @@ import RejectionEmailModal from './RejectionEmailModal';
 import StageChangeDialog from './StageChangeDialog';
 import { candidateData } from '../data';
 
+// The heart of our ATS - manages the entire recruitment pipeline view
 const KanbanBoard = () => {
   const navigate = useNavigate();
+  
+  // Track everything we need about our candidates and their stages
   const [activeId, setActiveId] = useState(null);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [stages, setStages] = useState([]);
@@ -22,12 +25,14 @@ const KanbanBoard = () => {
   const [candidateToReject, setCandidateToReject] = useState(null);
   const [stageChangeConfirmation, setStageChangeConfirmation] = useState(null);
 
+  // Load up saved stages and set up our initial candidate list
   useEffect(() => {
     const savedStages = JSON.parse(localStorage.getItem('kanbanStages') || '[]');
     const savedEmailTemplates = JSON.parse(localStorage.getItem('emailTemplates') || '{}');
     setStages(savedStages);
     setEmailTemplates(savedEmailTemplates);
     
+    // Transform our raw candidate data into something more useful
     const initialCandidates = candidateData.map((candidate, index) => ({
       id: `candidate-${index}`,
       email: candidate['Candidate'],
@@ -39,6 +44,7 @@ const KanbanBoard = () => {
     setCandidates(initialCandidates);
   }, []);
 
+  // Prevent accidental drags with a small distance threshold
   const sensors = useSensors(useSensor(PointerSensor, {
     activationConstraint: { distance: 8 },
   }));
@@ -47,6 +53,7 @@ const KanbanBoard = () => {
     setActiveId(event.active.id);
   }, []);
 
+  // When a candidate is dropped into a new stage, show confirmation
   const handleDragEnd = useCallback((event) => {
     const { active, over } = event;
     if (!over) return;
@@ -72,6 +79,7 @@ const KanbanBoard = () => {
     setActiveId(null);
   }, []);
 
+  // Handle stage changes from buttons/menus (not just drag and drop)
   const handleMoveToStage = useCallback((candidateId, newStageId) => {
     const candidate = candidates.find(c => c.id === candidateId);
     const newStage = stages.find(s => s.id === newStageId);
@@ -87,6 +95,7 @@ const KanbanBoard = () => {
     }
   }, [candidates, stages]);
 
+  // Actually move the candidate and send any stage-change emails
   const confirmStageChange = useCallback(() => {
     const { candidateId, newStageId, candidateEmail } = stageChangeConfirmation;
     
@@ -108,16 +117,21 @@ const KanbanBoard = () => {
     setStageChangeConfirmation(null);
   }, [stageChangeConfirmation, emailTemplates]);
 
-  const handleAddNote = useCallback((candidateId, newNote) => {
-    setCandidates(prevCandidates =>
-      prevCandidates.map(candidate =>
-        candidate.id === candidateId
-          ? { ...candidate, notes: [...(candidate.notes || []), newNote] }
+  // Keep track of any notes added for candidates
+  const handleAddNote = (candidateId, newNote) => {
+    setCandidates(prevCandidates => 
+      prevCandidates.map(candidate => 
+        candidate.id === candidateId 
+          ? {
+              ...candidate,
+              notes: [...(candidate.notes || []), newNote]
+            }
           : candidate
       )
     );
-  }, []);
+  };
 
+  // Handle the rejection flow - show confirmation for later stages
   const handleRejectCandidate = useCallback((candidateId) => {
     const candidate = candidates.find(c => c.id === candidateId);
     if (candidate && stages.findIndex(stage => stage.id === candidate.stage) > 0) {
@@ -166,7 +180,7 @@ const KanbanBoard = () => {
           onDragCancel={handleDragCancel}
         >
           <div className="h-full p-4">
-            <div className="grid auto-cols-fr grid-flow-col gap-4 h-full max-w-[1800px] mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 h-full">
               {stages.map((stage) => (
                 <Column
                   key={stage.id}
@@ -197,6 +211,7 @@ const KanbanBoard = () => {
       {selectedCandidate && (
         <CandidateDetail
           candidate={selectedCandidate}
+          onAddNote={handleAddNote}
           onClose={() => setSelectedCandidate(null)}
           stages={stages}
           onStageChange={(candidateId, newStage) => {

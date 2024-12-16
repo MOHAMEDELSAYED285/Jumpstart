@@ -10,7 +10,7 @@ const Column = ({ stage, candidates, onCandidateClick, stages, onMoveToStage, on
   return (
     <div
       ref={setNodeRef}
-      className="flex flex-col bg-white rounded-lg shadow-sm h-full min-w-0"
+      className="flex flex-col bg-white rounded-lg shadow-sm h-[calc(100vh-240px)]"
     >
       <div 
         className="px-3 py-2 border-b border-gray-200 flex items-center justify-between"
@@ -21,7 +21,7 @@ const Column = ({ stage, candidates, onCandidateClick, stages, onMoveToStage, on
           <span className="text-xs text-gray-500">{candidates.length} candidates</span>
         </div>
       </div>
-      <div className="p-2 space-y-2 overflow-y-auto flex-1">
+      <div className="p-2 space-y-2 overflow-y-auto flex-1 min-h-0">
         {candidates.map((candidate) => (
           <CandidateCard
             key={candidate.id}

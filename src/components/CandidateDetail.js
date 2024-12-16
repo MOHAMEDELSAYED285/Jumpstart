@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { X, Mail, ChevronDown, ChevronRight, Briefcase, Building2, HomeIcon, Phone, FileCheck, Trophy, School, UserCheck, GraduationCap, Globe, DollarSign, Paperclip, LinkIcon, FileText, Video, Linkedin, GitlabIcon as GitHub, Send } from 'lucide-react';
 import { candidateData } from '../data';
 
-// Badge component for status pills
+
 const Badge = ({ children, variant = 'default' }) => {
   const variants = {
     default: 'bg-gray-100 text-gray-700',
@@ -18,7 +18,7 @@ const Badge = ({ children, variant = 'default' }) => {
   );
 };
 
-// Info item with icon
+
 const InfoItem = ({ icon: Icon, label, value }) => (
   <div className="space-y-2">
     <div className="flex items-center gap-2 text-gray-500">
@@ -126,7 +126,7 @@ const CandidateDetail = ({ candidate, onClose, stages, onStageChange, onAddNote,
     c['Candidate'].toLowerCase() === candidate.email.toLowerCase()
   );
 
-  const handleAddNote = (e) => {
+  const handleAddNote = async (e) => {
     e.preventDefault();
     if (newNote.trim()) {
       const newNoteObj = {
@@ -134,11 +134,15 @@ const CandidateDetail = ({ candidate, onClose, stages, onStageChange, onAddNote,
         content: newNote,
         timestamp: new Date().toISOString(),
         author: {
-          name: 'Current User', // Replace with actual user name when available
-          avatar: 'https://via.placeholder.com/40' // Replace with actual user avatar when available
+          name: 'Current User', 
+          avatar: 'https://via.placeholder.com/40' 
         }
       };
+      
+    
       onAddNote(candidate.id, newNoteObj);
+      
+     
       setNewNote('');
     }
   };
@@ -146,7 +150,7 @@ const CandidateDetail = ({ candidate, onClose, stages, onStageChange, onAddNote,
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex justify-end">
       <div className="w-full max-w-3xl bg-white h-full flex flex-col overflow-y-auto">
-        {/* Header */}
+        {}
         <div className="flex justify-between items-center px-6 py-4 bg-white border-b border-gray-200">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-gray-100 overflow-hidden">
@@ -208,7 +212,7 @@ const CandidateDetail = ({ candidate, onClose, stages, onStageChange, onAddNote,
           </div>
         </div>
 
-        {/* Info Grid */}
+        {}
         <div className="px-6 py-6 border-b border-gray-200">
           <div className="grid grid-cols-4 gap-8">
             <InfoItem
@@ -239,12 +243,12 @@ const CandidateDetail = ({ candidate, onClose, stages, onStageChange, onAddNote,
           </div>
         </div>
 
-        {/* Stage Progress */}
+        {}
         <div className="px-6 py-6 border-b border-gray-200">
           <StageProgress currentStage={candidate.stage} stages={stages} />
         </div>
 
-        {/* Tabs */}
+        {}
         <div className="flex border-b border-gray-200 px-6 bg-white">
           <TabButton active={activeTab === 'details'} onClick={() => setActiveTab('details')}>
             Details
@@ -254,7 +258,7 @@ const CandidateDetail = ({ candidate, onClose, stages, onStageChange, onAddNote,
           </TabButton>
         </div>
 
-        {/* Content */}
+        {}
         <div className="flex-1 px-8 py-6">
           <div className="max-w-4xl mx-auto space-y-8">
             {activeTab === 'details' && candidateInfo && (
@@ -382,48 +386,47 @@ const CandidateDetail = ({ candidate, onClose, stages, onStageChange, onAddNote,
                 </DetailSection>
               </div>
             )}
-
-            {activeTab === 'notes' && (
-              <div className="space-y-4">
-                {candidate.notes?.map((note, index) => (
-                  <div key={index} className="bg-gray-50 rounded-xl border border-gray-200 p-4">
-                    <div className="flex items-start gap-3">
-                      <img 
-                        src={note.author.avatar} 
-                        alt={note.author.name} 
-                        className="w-8 h-8 rounded-full"
-                      />
-                      <div className="flex-1">
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="font-medium text-gray-900">{note.author.name}</span>
-                          <span className="text-sm text-gray-500">
-                            {new Date(note.timestamp).toLocaleString()}
-                          </span>
-                        </div>
-                        <p className="text-gray-700">{note.content}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                <form onSubmit={handleAddNote} className="bg-white rounded-xl border border-gray-200 p-4">
-                  <textarea
-                    value={newNote}
-                    onChange={(e) => setNewNote(e.target.value)}
-                    placeholder="Add a note..."
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6FEEC5] focus:border-transparent min-h-[80px]"
-                  />
-                  <div className="flex justify-end mt-2">
-                    <button
-                      type="submit"
-                      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-900 bg-[#6FEEC5] rounded-lg hover:bg-[#6FEEC5]/90 transition-colors"
-                    >
-                      Add note
-                      <Send className="w-4 h-4" />
-                    </button>
-                  </div>
-                </form>
-              </div>
-            )}
+{activeTab === 'notes' && (
+  <div className="space-y-4">
+    {candidate.notes?.map((note, index) => (
+      <div key={index} className="bg-gray-50 rounded-xl border border-gray-200 p-4">
+        <div className="flex items-start gap-3">
+          <img 
+            src={note.author.avatar} 
+            alt={note.author.name} 
+            className="w-8 h-8 rounded-full"
+          />
+          <div className="flex-1">
+            <div className="flex justify-between items-center mb-1">
+              <span className="font-medium text-gray-900">{note.author.name}</span>
+              <span className="text-sm text-gray-500">
+                {new Date(note.timestamp).toLocaleString()}
+              </span>
+            </div>
+            <p className="text-gray-700">{note.content}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+    <form onSubmit={handleAddNote} className="bg-white rounded-xl border border-gray-200 p-4">
+      <textarea
+        value={newNote}
+        onChange={(e) => setNewNote(e.target.value)}
+        placeholder="Add a note..."
+        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#6FEEC5] focus:border-transparent min-h-[80px]"
+      />
+      <div className="flex justify-end mt-2">
+        <button
+          type="submit"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-900 bg-[#6FEEC5] rounded-lg hover:bg-[#6FEEC5]/90 transition-colors"
+        >
+          Add note
+          <Send className="w-4 h-4" />
+        </button>
+      </div>
+    </form>
+  </div>
+)}
           </div>
         </div>
       </div>

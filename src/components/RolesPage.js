@@ -5,7 +5,6 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Briefcase, Users, Calendar, Plus, ChevronDown, ChevronUp, Edit2, Eye, Search, Clock } from 'lucide-react';
 import { candidateData } from '../data';
-import RatingComponent from './RatingComponent';
 
 const RolesPage = () => {
   const navigate = useNavigate();

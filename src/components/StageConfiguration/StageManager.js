@@ -10,12 +10,12 @@ const StageManager = ({ initialStages, onStagesUpdate, onClose }) => {
   const [editingStage, setEditingStage] = useState(null);
 
   useEffect(() => {
-    // Load active stages from localStorage or use default
+    
     const savedActiveStages = localStorage.getItem('activeStages');
     if (savedActiveStages) {
       setActiveStages(JSON.parse(savedActiveStages));
     } else {
-      // If no active stages, create some default ones
+
       const defaultActiveStages = [
         { id: 'application-review', title: 'Application Review', color: '#6FEEC5' },
         { id: 'phone-screening', title: 'Phone Screening', color: '#4A90E2' },
@@ -27,12 +27,12 @@ const StageManager = ({ initialStages, onStagesUpdate, onClose }) => {
       localStorage.setItem('activeStages', JSON.stringify(defaultActiveStages));
     }
 
-    // Load available stages from localStorage or use default
+    
     const savedAvailableStages = localStorage.getItem('availableStages');
     if (savedAvailableStages) {
       setAvailableStages(JSON.parse(savedAvailableStages));
     } else {
-      // If no available stages, create some default ones
+    
       const defaultAvailableStages = [
         { id: 'assessment', title: 'Assessment', color: '#9013FE' },
         { id: 'reference-check', title: 'Reference Check', color: '#417505' },

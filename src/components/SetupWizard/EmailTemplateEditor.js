@@ -25,7 +25,7 @@ const EmailTemplateEditor = ({ stage, template, onUpdate }) => {
     setError(null);
 
     try {
-      // First, check if the server is running
+      
       const healthCheck = await fetch('/api/health').catch(() => ({ ok: false }));
       
       if (!healthCheck.ok) {
@@ -70,20 +70,7 @@ const EmailTemplateEditor = ({ stage, template, onUpdate }) => {
     <div className="mb-6 p-4 border border-[#6FEEC5] rounded-lg">
       <div className="flex justify-between items-center mb-4">
         <h4 className="text-lg font-semibold text-black">{stage.title} Email Template</h4>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleGenerateEmail}
-          disabled={isGenerating}
-          className="border-[#6FEEC5] text-black hover:bg-[#6FEEC5]/10"
-        >
-          {isGenerating ? (
-            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-          ) : (
-            <Wand2 className="w-4 h-4 mr-2" />
-          )}
-          {isGenerating ? 'Generating...' : 'Generate Template'}
-        </Button>
+
       </div>
       
       <div className="space-y-4">
